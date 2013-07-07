@@ -38,7 +38,7 @@ var assertFileExists = function(infile) {
 	return instr;
 };
 
-var assertUrlExists = function(url) {
+/* var assertUrlExists = function(url) {
 	var urlstr = url.toString();
 	rest.head(urlstr).on('complete', function(result) {
 		if (result instanceof Error) {
@@ -47,7 +47,7 @@ var assertUrlExists = function(url) {
 		}
 	});
 	return urlstr;
-}
+} */
 
 var cheerioHtmlFile = function(htmlfile) {
 	return cheerio.load(fs.readFileSync(htmlfile));
@@ -91,6 +91,11 @@ if(require.main == module) {
 
 	else {
 		rest.get(program.url).on('complete', function(result) {
+			if (result instanceof Error) {
+				console.log("%s does not exist. Exiting.", program.url);
+				process.exit(1); // http://nodejs.org/api/process.html#process_process_exit_code
+			}
+
 			var checkJson = checkHtml(result, program.checks, false);
 			var outJson = JSON.stringify(checkJson, null, 4); 
 			console.log(outJson);
