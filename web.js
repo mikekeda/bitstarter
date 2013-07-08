@@ -1,7 +1,7 @@
 var fs = require("fs");
 
 var file_name = "index.html";
-text = fs.readFileSync( file_name ).toString();
+var text = fs.readFileSync( file_name ).toString();
 
 var express = require('express');
 
